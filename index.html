@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Malaysian Commodity Production Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .tab-active {
+            border-bottom: 3px solid #3b82f6;
+            color: #3b82f6;
+            font-weight: 600;
+        }
+        .iframe-container {
+            position: relative;
+            overflow: hidden;
+            padding-top: 56.25%;
+        }
+        .iframe-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="gradient-bg text-white shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <i class="fas fa-chart-line text-3xl mr-3"></i>
+                    <h1 class="text-2xl md:text-3xl font-bold">Malaysian Commodity Production Dashboard</h1>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <span class="text-sm md:text-base">Last updated: <span id="current-date" class="font-medium"></span></span>
+                    <button class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md text-sm flex items-center">
+                        <i class="fas fa-sync-alt mr-1"></i> Refresh
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Tabs Navigation -->
+        <div class="flex border-b border-gray-200 mb-8">
+            <button id="powerbi-tab" class="tab-active px-4 py-2 text-lg font-medium focus:outline-none">
+                <i class="fas fa-chart-bar mr-2"></i>Power BI Dashboard
+            </button>
+            <button id="ml-tab" class="px-4 py-2 text-lg font-medium text-gray-500 hover:text-blue-600 focus:outline-none">
+                <i class="fas fa-brain mr-2"></i>ML Models
+            </button>
+        </div>
+
+        <!-- Tab Content -->
+        <div id="powerbi-content" class="tab-content">
+            <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8">
+                <div class="p-6">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-chart-pie mr-2 text-blue-500"></i>Commodity Production Overview
+                    </h2>
+                    <p class="text-gray-600 mb-6">Interactive dashboard showing production trends for various Malaysian agricultural commodities including livestock and crops.</p>
+                    
+                    <div class="iframe-container rounded-lg shadow-md">
+                        <iframe title="Malaysian Livestock and Crops Production" src="https://app.powerbi.com/view?r=eyJrIjoiYmNlOGFlNjMtOGJkNi00MTFiLWFhNzAtNDhmOGQwNDc3MzJiIiwidCI6ImE2M2JiMWE5LTQ4YzItNDQ4Yi04NjkzLTMzMTdiMDBjYTdmYiIsImMiOjEwfQ%3D%3D" frameborder="0" allowFullScreen="true"></iframe>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover transition-all duration-300">
+                    <div class="p-6">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800">Total Commodities</h3>
+                                <p class="text-gray-500 text-sm">Tracked in dashboard</p>
+                            </div>
+                            <div class="bg-blue-100 p-2 rounded-full">
+                                <i class="fas fa-seedling text-blue-600"></i>
+                            </div>
+                        </div>
+                        <p class="text-3xl font-bold text-gray-800 mt-4">11</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover transition-all duration-300">
+                    <div class="p-6">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800">Data Coverage</h3>
+                                <p class="text-gray-500 text-sm">Years of historical data</p>
+                            </div>
+                            <div class="bg-green-100 p-2 rounded-full">
+                                <i class="fas fa-calendar-alt text-green-600"></i>
+                            </div>
+                        </div>
+                        <p class="text-3xl font-bold text-gray-800 mt-4">10+</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover transition-all duration-300">
+                    <div class="p-6">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800">Forecast Horizon</h3>
+                                <p class="text-gray-500 text-sm">Years into the future</p>
+                            </div>
+                            <div class="bg-purple-100 p-2 rounded-full">
+                                <i class="fas fa-chart-line text-purple-600"></i>
+                            </div>
+                        </div>
+                        <p class="text-3xl font-bold text-gray-800 mt-4">10</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="p-6">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-info-circle mr-2 text-blue-500"></i>About This Dashboard
+                    </h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <h3 class="font-semibold text-gray-800 mb-2">Data Sources</h3>
+                            <ul class="list-disc pl-5 text-gray-600 space-y-1">
+                                <li>Department of Veterinary Services Malaysia</li>
+                                <li>Department of Agriculture Malaysia</li>
+                                <li>Malaysian Rubber Board</li>
+                                <li>Malaysian Palm Oil Board</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-800 mb-2">Commodities Tracked</h3>
+                            <div class="grid grid-cols-2 gap-2">
+                                <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Beef</span>
+                                <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Goat</span>
+                                <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Sheep</span>
+                                <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Swine</span>
+                                <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Chicken</span>
+                                <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Duck</span>
+                                <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Paddy</span>
+                                <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Palm Oil</span>
+                                <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Rubber</span>
+                                <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Egg</span>
+                                <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Milk</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ML Models Content (Hidden by default) -->
+        <div id="ml-content" class="tab-content hidden">
+            <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8">
+                <div class="p-6">
+                    <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
+                        <i class="fas fa-brain mr-2 text-blue-500"></i>Machine Learning Models for Commodity Analysis
+                    </h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <!-- KMeans Section -->
+                        <div class="border border-gray-200 rounded-lg p-6">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                                <i class="fas fa-project-diagram mr-2 text-purple-500"></i>KMeans Clustering
+                            </h3>
+                            <p class="text-gray-600 mb-4">Cluster commodities based on production growth rate and volatility to identify similar patterns.</p>
+                            <div class="bg-gray-100 rounded-lg p-4 mb-4">
+                                <img src="https://via.placeholder.com/600x400?text=KMeans+Clustering+Plot" alt="KMeans Clustering" class="w-full rounded">
+                            </div>
+                            <button id="run-kmeans" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md flex items-center">
+                                <i class="fas fa-play mr-2"></i> Run KMeans Clustering
+                            </button>
+                        </div>
+                        
+                        <!-- ARIMA Section -->
+                        <div class="border border-gray-200 rounded-lg p-6">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                                <i class="fas fa-chart-line mr-2 text-green-500"></i>ARIMA Forecasting
+                            </h3>
+                            <p class="text-gray-600 mb-4">Forecast future production trends for selected commodities using time series analysis.</p>
+                            
+                            <div class="mb-4">
+                                <label for="commodity-select" class="block text-sm font-medium text-gray-700 mb-1">Select Commodity</label>
+                                <select id="commodity-select" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="beef">Beef</option>
+                                    <option value="goat">Goat</option>
+                                    <option value="sheep">Sheep</option>
+                                    <option value="swine">Swine</option>
+                                    <option value="chicken">Chicken</option>
+                                    <option value="duck">Duck</option>
+                                    <option value="paddy">Paddy</option>
+                                    <option value="palm oil">Palm Oil</option>
+                                    <option value="rubber">Rubber</option>
+                                    <option value="chicken egg">Chicken Egg</option>
+                                    <option value="duck egg">Duck Egg</option>
+                                    <option value="milk">Milk</option>
+                                </select>
+                            </div>
+                            
+                            <div class="bg-gray-100 rounded-lg p-4 mb-4">
+                                <img src="https://via.placeholder.com/600x400?text=ARIMA+Forecast+Plot" alt="ARIMA Forecast" class="w-full rounded">
+                            </div>
+                            
+                            <button id="run-arima" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md flex items-center">
+                                <i class="fas fa-chart-line mr-2"></i> Run ARIMA Forecast
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8 bg-blue-50 border-l-4 border-blue-500 p-4">
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-info-circle text-blue-500"></i>
+                            </div>
+                            <div class="ml-3">
+                                <h3 class="text-sm font-medium text-blue-800">Model Information</h3>
+                                <div class="mt-2 text-sm text-blue-700">
+                                    <p>KMeans uses 3 clusters with standardized features. ARIMA uses (1,1,1) order for all commodities.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Commodity Dashboard</h3>
+                    <p class="text-gray-400">Interactive dashboard for analyzing Malaysian agricultural commodity production trends and forecasts.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Data Sources</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Methodology</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">API Documentation</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Contact</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-center text-gray-400"><i class="fas fa-envelope mr-2"></i> support@commodity-dashboard.com</li>
+                        <li class="flex items-center text-gray-400"><i class="fas fa-phone mr-2"></i> +60 3-1234 5678</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-400">
+                <p>&copy; 2023 Malaysian Commodity Production Dashboard. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Set current date
+        const now = new Date();
+        document.getElementById('current-date').textContent = now.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+
+        // Tab switching functionality
+        const powerbiTab = document.getElementById('powerbi-tab');
+        const mlTab = document.getElementById('ml-tab');
+        const powerbiContent = document.getElementById('powerbi-content');
+        const mlContent = document.getElementById('ml-content');
+
+        powerbiTab.addEventListener('click', () => {
+            powerbiTab.classList.add('tab-active');
+            powerbiTab.classList.remove('text-gray-500');
+            powerbiTab.classList.add('text-blue-600');
+            mlTab.classList.remove('tab-active');
+            mlTab.classList.add('text-gray-500');
+            mlTab.classList.remove('text-blue-600');
+            powerbiContent.classList.remove('hidden');
+            mlContent.classList.add('hidden');
+        });
+
+        mlTab.addEventListener('click', () => {
+            mlTab.classList.add('tab-active');
+            mlTab.classList.remove('text-gray-500');
+            mlTab.classList.add('text-blue-600');
+            powerbiTab.classList.remove('tab-active');
+            powerbiTab.classList.add('text-gray-500');
+            powerbiTab.classList.remove('text-blue-600');
+            mlContent.classList.remove('hidden');
+            powerbiContent.classList.add('hidden');
+        });
+
+        // Simulate running models
+        document.getElementById('run-kmeans').addEventListener('click', function() {
+            this.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Running...';
+            setTimeout(() => {
+                this.innerHTML = '<i class="fas fa-check mr-2"></i> Completed';
+                // In a real app, you would update the plot here
+            }, 1500);
+        });
+
+        document.getElementById('run-arima').addEventListener('click', function() {
+            const select = document.getElementById('commodity-select');
+            const selectedCommodity = select.options[select.selectedIndex].text;
+            
+            this.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i> Forecasting ${selectedCommodity}...`;
+            setTimeout(() => {
+                this.innerHTML = '<i class="fas fa-check mr-2"></i> Forecast Completed';
+                // In a real app, you would update the plot here
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
