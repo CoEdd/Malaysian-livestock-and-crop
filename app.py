@@ -3,9 +3,7 @@ import pandas as pd
 import numpy as np
 import matplotlib
 matplotlib.use('Agg')  # Use Agg backend (non-GUI)
-
 import matplotlib.pyplot as plt
-
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
 from statsmodels.tsa.arima.model import ARIMA
