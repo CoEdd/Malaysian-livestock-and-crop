@@ -291,13 +291,10 @@
         // Function to fetch and display KMeans plot
         function fetchKMeansPlot() {
             $.ajax({
-                url: 'http://localhost:5000/kmeans_plot',
+                url: '/kmeans_plot', // Use a relative path
                 type: 'GET',
-                xhrFields: {
-                    responseType: 'blob'
-                },
                 success: function(response) {
-                    const plotUrl = URL.createObjectURL(response);
+                    const plotUrl = URL.createObjectURL(new Blob([response], { type: 'image/png' }));
                     $('#kmeans-plot').attr('src', plotUrl).show();
                 },
                 error: function(error) {
@@ -309,15 +306,12 @@
         // Function to fetch and display ARIMA plot
         function fetchARIMAPlot(selectedCommodity) {
             $.ajax({
-                url: 'http://localhost:5000/arima_plot',
+                url: '/arima_plot', // Use a relative path
                 type: 'POST',
                 contentType: 'application/json',
-                data: JSON.stringify({"commodity": selectedCommodity}),
-                xhrFields: {
-                    responseType: 'blob'
-                },
+                data: JSON.stringify({ "commodity": selectedCommodity }),
                 success: function(response) {
-                    const plotUrl = URL.createObjectURL(response);
+                    const plotUrl = URL.createObjectURL(new Blob([response], { type: 'image/png' }));
                     $('#arima-plot').attr('src', plotUrl).show();
                 },
                 error: function(error) {
@@ -325,7 +319,6 @@
                 }
             });
         }
-
         // Event listener for KMeans button
         document.getElementById('run-kmeans').addEventListener('click', function() {
             $('#run-kmeans').prop('disabled', true);
