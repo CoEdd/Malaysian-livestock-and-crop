@@ -291,14 +291,15 @@
         // Function to fetch and display KMeans plot
         function fetchKMeansPlot() {
             $.ajax({
-                url: '/kmeans_plot', // Relative path
+                url: '/kmeans_plot', // Use a relative path
                 type: 'GET',
                 success: function(response) {
-                    const plotUrl = URL.createObjectURL(new Blob([response], { type: 'image/png' }));
-                    $('#kmeans-plot').attr('src', plotUrl).show();
+                    console.log("Response received:", response); // Log the response for debugging
+                    const plotUrl = URL.createObjectURL(new Blob([response], { type: 'image/png' })); // Create a temporary URL for the image
+                    $('#kmeans-plot').attr('src', plotUrl).show(); // Set the image source and display it
                 },
                 error: function(error) {
-                    console.error("Error fetching KMeans plot:", error);
+                    console.error("Error fetching KMeans plot:", error); // Log any errors
                 }
             });
         }
