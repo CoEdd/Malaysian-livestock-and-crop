@@ -18,7 +18,7 @@ app = Flask(__name__)
 warnings.filterwarnings('ignore')
 
 ### --- Load Data Once --- ###
-file_path = 'C:\\Users\\User\\Documents\\My VS Code\\Data Challenge\\combined_excel.xlsx'
+file_path = 'combined_excel.xlsx'
 sheets = pd.read_excel(file_path, sheet_name=None)
 
 commodities = {
