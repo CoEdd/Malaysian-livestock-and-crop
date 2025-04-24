@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Malaysian Commodity Production Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         .gradient-bg {
@@ -52,7 +53,6 @@
             </div>
         </div>
     </header>
-
     <!-- Main Content -->
     <main class="container mx-auto px-4 py-8">
         <!-- Tabs Navigation -->
@@ -64,7 +64,6 @@
                 <i class="fas fa-brain mr-2"></i>ML Models
             </button>
         </div>
-
         <!-- Tab Content -->
         <div id="powerbi-content" class="tab-content">
             <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8">
@@ -73,13 +72,11 @@
                         <i class="fas fa-chart-pie mr-2 text-blue-500"></i>Commodity Production Overview
                     </h2>
                     <p class="text-gray-600 mb-6">Interactive dashboard showing production trends for various Malaysian agricultural commodities including livestock and crops.</p>
-                    
                     <div class="iframe-container rounded-lg shadow-md">
                         <iframe title="Malaysian Livestock and Crops Production" src="https://app.powerbi.com/view?r=eyJrIjoiYmNlOGFlNjMtOGJkNi00MTFiLWFhNzAtNDhmOGQwNDc3MzJiIiwidCI6ImE2M2JiMWE5LTQ4YzItNDQ4Yi04NjkzLTMzMTdiMDBjYTdmYiIsImMiOjEwfQ%3D%3D" frameborder="0" allowFullScreen="true"></iframe>
                     </div>
                 </div>
             </div>
-
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
                 <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover transition-all duration-300">
                     <div class="p-6">
@@ -95,7 +92,6 @@
                         <p class="text-3xl font-bold text-gray-800 mt-4">11</p>
                     </div>
                 </div>
-
                 <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover transition-all duration-300">
                     <div class="p-6">
                         <div class="flex justify-between items-start">
@@ -110,7 +106,6 @@
                         <p class="text-3xl font-bold text-gray-800 mt-4">10+</p>
                     </div>
                 </div>
-
                 <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover transition-all duration-300">
                     <div class="p-6">
                         <div class="flex justify-between items-start">
@@ -126,7 +121,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="bg-white rounded-xl shadow-md overflow-hidden">
                 <div class="p-6">
                     <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
@@ -162,7 +156,6 @@
                 </div>
             </div>
         </div>
-
         <!-- ML Models Content (Hidden by default) -->
         <div id="ml-content" class="tab-content hidden">
             <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8">
@@ -170,7 +163,6 @@
                     <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
                         <i class="fas fa-brain mr-2 text-blue-500"></i>Machine Learning Models for Commodity Analysis
                     </h2>
-                    
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <!-- KMeans Section -->
                         <div class="border border-gray-200 rounded-lg p-6">
@@ -179,23 +171,20 @@
                             </h3>
                             <p class="text-gray-600 mb-4">Cluster commodities based on production growth rate and volatility to identify similar patterns.</p>
                             <div class="bg-gray-100 rounded-lg p-4 mb-4">
-                                <img src="https://via.placeholder.com/600x400?text=KMeans+Clustering+Plot" alt="KMeans Clustering" class="w-full rounded">
+                                <img id="kmeans-plot" src="" alt="KMeans Plot" width="100%" height="auto" style="display: none;">
                             </div>
                             <button id="run-kmeans" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md flex items-center">
                                 <i class="fas fa-play mr-2"></i> Run KMeans Clustering
                             </button>
                         </div>
-                        
                         <!-- ARIMA Section -->
                         <div class="border border-gray-200 rounded-lg p-6">
                             <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
                                 <i class="fas fa-chart-line mr-2 text-green-500"></i>ARIMA Forecasting
                             </h3>
-                            <p class="text-gray-600 mb-4">Forecast future production trends for selected commodities using time series analysis.</p>
-                            
-                            <div class="mb-4">
-                                <label for="commodity-select" class="block text-sm font-medium text-gray-700 mb-1">Select Commodity</label>
-                                <select id="commodity-select" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <p class="text-gray-600 mb-4">Forecast future production for selected commodities.</p>
+                            <div class="bg-gray-100 rounded-lg p-4 mb-4">
+                                <select id="commodity-select" class="block w-full px-4 py-2 mb-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                     <option value="beef">Beef</option>
                                     <option value="goat">Goat</option>
                                     <option value="sheep">Sheep</option>
@@ -209,18 +198,15 @@
                                     <option value="duck egg">Duck Egg</option>
                                     <option value="milk">Milk</option>
                                 </select>
+                                <button id="run-arima" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md flex items-center">
+                                    <i class="fas fa-play mr-2"></i> Forecast
+                                </button>
                             </div>
-                            
                             <div class="bg-gray-100 rounded-lg p-4 mb-4">
-                                <img src="https://via.placeholder.com/600x400?text=ARIMA+Forecast+Plot" alt="ARIMA Forecast" class="w-full rounded">
+                                <img id="arima-plot" src="" alt="ARIMA Plot" width="100%" height="auto" style="display: none;">
                             </div>
-                            
-                            <button id="run-arima" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md flex items-center">
-                                <i class="fas fa-chart-line mr-2"></i> Run ARIMA Forecast
-                            </button>
                         </div>
                     </div>
-                    
                     <div class="mt-8 bg-blue-50 border-l-4 border-blue-500 p-4">
                         <div class="flex">
                             <div class="flex-shrink-0">
@@ -238,7 +224,6 @@
             </div>
         </div>
     </main>
-
     <!-- Footer -->
     <footer class="bg-gray-800 text-white py-8">
         <div class="container mx-auto px-4">
@@ -268,7 +253,6 @@
             </div>
         </div>
     </footer>
-
     <script>
         // Set current date
         const now = new Date();
@@ -283,7 +267,6 @@
         const mlTab = document.getElementById('ml-tab');
         const powerbiContent = document.getElementById('powerbi-content');
         const mlContent = document.getElementById('ml-content');
-
         powerbiTab.addEventListener('click', () => {
             powerbiTab.classList.add('tab-active');
             powerbiTab.classList.remove('text-gray-500');
@@ -294,7 +277,6 @@
             powerbiContent.classList.remove('hidden');
             mlContent.classList.add('hidden');
         });
-
         mlTab.addEventListener('click', () => {
             mlTab.classList.add('tab-active');
             mlTab.classList.remove('text-gray-500');
@@ -306,23 +288,65 @@
             powerbiContent.classList.add('hidden');
         });
 
-        // Simulate running models
+        // Function to fetch and display KMeans plot
+        function fetchKMeansPlot() {
+            $.ajax({
+                url: 'http://localhost:5000/kmeans_plot',
+                type: 'GET',
+                xhrFields: {
+                    responseType: 'blob'
+                },
+                success: function(response) {
+                    const plotUrl = URL.createObjectURL(response);
+                    $('#kmeans-plot').attr('src', plotUrl).show();
+                },
+                error: function(error) {
+                    console.error("Error fetching KMeans plot:", error);
+                }
+            });
+        }
+
+        // Function to fetch and display ARIMA plot
+        function fetchARIMAPlot(selectedCommodity) {
+            $.ajax({
+                url: 'http://localhost:5000/arima_plot',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({"commodity": selectedCommodity}),
+                xhrFields: {
+                    responseType: 'blob'
+                },
+                success: function(response) {
+                    const plotUrl = URL.createObjectURL(response);
+                    $('#arima-plot').attr('src', plotUrl).show();
+                },
+                error: function(error) {
+                    console.error("Error fetching ARIMA plot:", error);
+                }
+            });
+        }
+
+        // Event listener for KMeans button
         document.getElementById('run-kmeans').addEventListener('click', function() {
-            this.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Running...';
+            $('#run-kmeans').prop('disabled', true);
+            $('#run-kmeans').html('<i class="fas fa-spinner fa-spin mr-2"></i> Running...');
+            fetchKMeansPlot();
             setTimeout(() => {
-                this.innerHTML = '<i class="fas fa-check mr-2"></i> Completed';
-                // In a real app, you would update the plot here
+                $('#run-kmeans').html('<i class="fas fa-check mr-2"></i> Completed');
+                $('#run-kmeans').prop('disabled', false);
             }, 1500);
         });
 
+        // Event listener for ARIMA button
         document.getElementById('run-arima').addEventListener('click', function() {
             const select = document.getElementById('commodity-select');
-            const selectedCommodity = select.options[select.selectedIndex].text;
-            
-            this.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i> Forecasting ${selectedCommodity}...`;
+            const selectedCommodity = select.options[select.selectedIndex].value;
+            $('#run-arima').prop('disabled', true);
+            $('#run-arima').html(`<i class="fas fa-spinner fa-spin mr-2"></i> Forecasting ${selectedCommodity}...`);
+            fetchARIMAPlot(selectedCommodity);
             setTimeout(() => {
-                this.innerHTML = '<i class="fas fa-check mr-2"></i> Forecast Completed';
-                // In a real app, you would update the plot here
+                $('#run-arima').html('<i class="fas fa-check mr-2"></i> Forecast Completed');
+                $('#run-arima').prop('disabled', false);
             }, 2000);
         });
     </script>

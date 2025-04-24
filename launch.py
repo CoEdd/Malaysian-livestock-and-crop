@@ -7,7 +7,8 @@ from sklearn.preprocessing import StandardScaler
 from statsmodels.tsa.arima.model import ARIMA
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 import warnings
-import math
+import io
+from PIL import Image
 
 warnings.filterwarnings('ignore')
 
@@ -69,7 +70,16 @@ def show_kmeans_plot():
     plt.colorbar(scatter, label='Cluster')
     plt.grid(True)
     plt.tight_layout()
-    return plt.gcf()
+
+    # Save the plot to a BytesIO object
+    img_bytes = io.BytesIO()
+    plt.savefig(img_bytes, format='png')
+    img_bytes.seek(0)
+    plt.close()
+
+    # Convert BytesIO to PIL Image
+    img = Image.open(img_bytes)
+    return img
 
 ### --- ARIMA Forecasting Function --- ###
 def get_unit(commodity):
@@ -87,7 +97,6 @@ def forecast_arima(selected):
     else:
         commodity = selected
         egg_type = None
-
 
     prod_col = commodities[commodity]
 
@@ -114,7 +123,7 @@ def forecast_arima(selected):
     forecast = model_fit.forecast(steps=len(forecast_years))
 
     mae = mean_absolute_error(y, predictions)
-    rmse = math.sqrt(mean_squared_error(y, predictions))
+    rmse = np.sqrt(mean_squared_error(y, predictions))
     r2 = r2_score(y, predictions)
 
     plt.figure(figsize=(12, 6))
@@ -138,60 +147,41 @@ def forecast_arima(selected):
     plt.grid(True)
     plt.tight_layout()
 
-    return plt.gcf()
+    # Save the plot to a BytesIO object
+    img_bytes = io.BytesIO()
+    plt.savefig(img_bytes, format='png')
+    img_bytes.seek(0)
+    plt.close()
 
-### --- Gradio UI --- ###
-# Power BI Tab
+    # Convert BytesIO to PIL Image
+    img = Image.open(img_bytes)
+    return img
 
-# Your Power BI report URL
-power_bi_url = "https://app.powerbi.com/view?r=eyJrIjoiYmNlOGFlNjMtOGJkNi00MTFiLWFhNzAtNDhmOGQwNDc3MzJiIiwidCI6ImE2M2JiMWE5LTQ4YzItNDQ4Yi04NjkzLTMzMTdiMDBjYTdmYiIsImMiOjEwfQ%3D%3D"
-# Function to generate iframe HTML
-import random
-import time
-
-# Function to generate iframe HTML with cache-busting
-def embed_power_bi():
-    # Add a dynamic timestamp to the URL to avoid caching
-    timestamp = int(time.time())  # Get current timestamp
-    power_bi_url_with_cache_busting = f"https://app.powerbi.com/view?r=eyJrIjoiYmNlOGFlNjMtOGJkNi00MTFiLWFhNzAtNDhmOGQwNDc3MzJiIiwidCI6ImE2M2JiMWE5LTQ4YzItNDQ4Yi04NjkzLTMzMTdiMDBjYTdmYiIsImMiOjEwfQ%3D%3D&t={timestamp}"  # Append timestamp
-    
-    # Return the HTML iframe with the updated URL
-    return f'<iframe title="Malaysian Livestock and Crops Production" width="600" height="373.5" src="{power_bi_url_with_cache_busting}" frameborder="0" allowFullScreen="true"></iframe>'
-
-# Create the Power BI iframe component directly
-power_bi_component = gr.HTML(value=embed_power_bi())
-
-# Create a Blocks for Power BI Dashboard
-with gr.Blocks() as power_bi_tab:
-    gr.Markdown("## Power BI Dashboard")
-    gr.HTML(embed_power_bi())
-
-# (Your ML model Interface, unchanged)
-with gr.Blocks() as ml_model_interface:
-    gr.Markdown("## Machine Learning Visualizations")
-    with gr.Tab("KMeans Clustering"):
-        btn_kmeans = gr.Button("Show KMeans Clustering")
-        output_kmeans = gr.Plot()
-        btn_kmeans.click(fn=show_kmeans_plot, inputs=None, outputs=output_kmeans)
-
-    with gr.Tab("ARIMA Forecasting"):
-        dropdown = gr.Dropdown(
-            choices=[
-                "beef", "goat", "sheep", "swine", "chicken", "duck",
-                "paddy", "palm oil", "rubber", "chicken egg", "duck egg", "milk"
-            ],
-            label="Select Commodity for Forecasting"
-        )
-        btn_forecast = gr.Button("Forecast")
-        output_forecast = gr.Plot()
-        btn_forecast.click(fn=forecast_arima, inputs=dropdown, outputs=output_forecast)
-
-
-# Tabs setup
-tabs = gr.TabbedInterface(
-    [power_bi_tab, ml_model_interface],
-    ["Power BI Dashboard", "ML Model"]
+### --- Gradio Interfaces --- ###
+# KMeans Clustering Interface
+kmeans_interface = gr.Interface(
+    fn=show_kmeans_plot,
+    inputs=None,
+    outputs=gr.Image(type="pil"),
+    title="KMeans Clustering",
+    description="Cluster commodities based on production growth rate and volatility."
 )
 
-# Launch
-tabs.launch(share=True)
+# ARIMA Forecasting Interface
+arima_interface = gr.Interface(
+    fn=forecast_arima,
+    inputs=gr.Dropdown(
+        choices=[
+            "beef", "goat", "sheep", "swine", "chicken", "duck",
+            "paddy", "palm oil", "rubber", "chicken egg", "duck egg", "milk"
+        ],
+        label="Select Commodity for Forecasting"
+    ),
+    outputs=gr.Image(type="pil"),
+    title="ARIMA Forecasting",
+    description="Forecast future production for selected commodities."
+)
+
+# Launch Interfaces
+kmeans_interface.launch(server_name="0.0.0.0", server_port=7860, share=True)
+arima_interface.launch(server_name="0.0.0.0", server_port=7861, share=True)

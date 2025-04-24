@@ -1,8 +1,0 @@
-services:
-  - type: web
-    name: gradio-app
-    env: python
-    buildCommand: pip install -r requirements.txt
-    startCommand: launch.py
-    plan: free
-
