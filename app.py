@@ -81,6 +81,7 @@ def show_kmeans_plot():
     plt.savefig(img_bytes, format='png')
     img_bytes.seek(0)
     plt.close()
+    print("Generating KMeans plot...")
 
     return img_bytes
 
