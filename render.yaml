@@ -3,6 +3,6 @@ services:
     name: gradio-app
     env: python
     buildCommand: pip install -r requirements.txt
-    startCommand: python your_script_name.py
+    startCommand: launch.py
     plan: free
 
