@@ -291,7 +291,7 @@
         // Function to fetch and display KMeans plot
         function fetchKMeansPlot() {
             $.ajax({
-                url: 'https://malaysian-livestock-and-crop.onrender.com/kmeans_plot', // Use a relative path
+                url: '/kmeans_plot', // Relative path
                 type: 'GET',
                 success: function(response) {
                     const plotUrl = URL.createObjectURL(new Blob([response], { type: 'image/png' }));
@@ -306,7 +306,7 @@
         // Function to fetch and display ARIMA plot
         function fetchARIMAPlot(selectedCommodity) {
             $.ajax({
-                url: 'https://malaysian-livestock-and-crop.onrender.com/arima_plot', // Use a relative path
+                url: '/arima_plot', // Use a relative path
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify({ "commodity": selectedCommodity }),
@@ -342,6 +342,8 @@
                 $('#run-arima').prop('disabled', false);
             }, 2000);
         });
+
+        
     </script>
 </body>
 </html>
