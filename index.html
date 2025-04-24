@@ -314,15 +314,19 @@
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify({ "commodity": selectedCommodity }),
+                xhrFields: {
+                    responseType: 'blob' // Set response type to 'blob' for image data
+                },
                 success: function(response) {
-                    const plotUrl = URL.createObjectURL(new Blob([response], { type: 'image/png' }));
-                    $('#arima-plot').attr('src', plotUrl).show();
+                    const plotUrl = URL.createObjectURL(response); // Create a temporary URL for the image
+                    $('#arima-plot').attr('src', plotUrl).show(); // Set the image source and display it
                 },
                 error: function(error) {
-                    console.error("Error fetching ARIMA plot:", error);
+                    console.error("Error fetching ARIMA plot:", error); // Log any errors
                 }
             });
         }
+
         // Event listener for KMeans button
         document.getElementById('run-kmeans').addEventListener('click', function() {
             $('#run-kmeans').prop('disabled', true);
